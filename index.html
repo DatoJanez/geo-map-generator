@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<style>
+    #my_dataviz{
+        /* border:1px solid red; */
+    }
+    body{
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        margin: 0;
+        display: flex;
+        align-content: stretch;
+    }
+    .controlls{ width: auto;
+        background: gray;
+        flex-grow: 1;
+        height: 750px;
+    }
+    textarea{
+        width: 100%;
+        height: 700px;
+    }
+    #download{
+        width: 100%;
+        height: 50px;
+        display: block;
+        background: #26b75e;
+        color: #fff;
+        text-decoration: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: mono;
+    }
+</style>
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+</head>
+<body>
+
+
+<!-- Create an element where the map will take place -->
+<svg id="my_dataviz" width="1450" height="750"></svg>
+<div class="controlls">
+    
+    <textarea></textarea>
+    <a id="download" href="#">Download the map</a>
+</div>
+
+<script>
+
+    // The svg
+    var svg = d3.select("svg"),
+        width = +svg.attr("width"),
+        height = +svg.attr("height");
+    
+    // Map and projection
+    var projection = d3.geoMercator()
+        .center([43.35, 42.35])                // GPS of location to zoom on
+        .scale(12080)                       // This is like the zoom
+        .translate([ width/2, height/2 ])
+        document.getElementById("download").onclick = function() {
+            var svgData = document.getElementById("my_dataviz").outerHTML;
+            var svgBlob = new Blob([svgData], {type:"image/svg+xml;charset=utf-8"});
+            var svgUrl = URL.createObjectURL(svgBlob);
+            var downloadLink = document.createElement("a");
+            downloadLink.href = svgUrl;
+            downloadLink.download = "newesttree.svg";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+    }
+    
+    var data 
+    
+        var drowMap = () => {
+
+                svg.append("g")
+                    .selectAll("path")
+                    .data(data.features)
+                    .enter()
+                    .append("path")
+                    .attr("stroke-width", 0.5)
+                    .attr("stroke", "rgba(0,0,0,.4)")
+                    .attr("fill", d => {
+                        let name = (d.properties.NAME || d.properties.DISTRICT).toLowerCase()
+                        name = name == 'yazbegi' ? 'kazbegi' : name
+                        let val = values.filter(a => a.name.toLowerCase() == name)[0]
+                        console.log(name, val);
+                        if(!val || !val.value) return "white";
+                        if(val.value <= 15) return "#c0392b";
+                        if((val.value > 15) && (val.value <= 30)) return "#e74c3c";
+                        if((val.value > 30) && (val.value <= 45)) return "#F4877B";
+                        if((val.value > 45) && (val.value <= 55)) return "#bdc3c7";
+                        if((val.value > 56) && (val.value <= 70)) return "#91CEF8";
+                        if((val.value > 70) && (val.value <= 85)) return "#3498db";
+                        if(val.value > 85) return "#1c5c85";
+                        return "white"
+                    })
+                    .attr("d", d3.geoPath()
+                        .projection(projection)
+                    )
+                    // .style("stroke", "none")
+
+}
+    
+function delay(fn, ms) {
+  let timer = 0
+  return function(...args) {
+    clearTimeout(timer)
+    timer = setTimeout(fn.bind(this, ...args), ms || 0)
+  }
+} 
+    var values
+    document.getElementsByTagName('textarea')[0].onkeyup = delay((e) => {
+        values = document.getElementsByTagName('textarea')[0].value.split('\n').map(a => a.replace('\t', '').replace(/  +/g, '')).map(a => ({ name: a.split('-')[0].trim(), value: +a.split('-')[1]}) )
+        if(!data){
+
+            d3.json("https://raw.githubusercontent.com/DatoJanez/rustavi-abonent-number/master/munic-and-city.geojson", data_ => {
+                data = data_
+                drowMap()
+            })
+        } else {
+            drowMap()
+        }
+    }, 500)
+
+    
+    
+let test_value = `Abasha-16
+Adigeni-16
+Akhalkalaki-27
+Akhaltsikhe-48
+Akhmeta-25
+Ambrolauri-12
+Aspindza-8
+Axalgori-0
+Bagdati-21
+Batumi-
+Bolnisi-29
+Borjomi-26
+Chiatura-37
+Chkhorotsku-18
+Chokhatauri-15
+Dedoflistskaro-17
+Dmanisi-11
+Duseti-24
+Gagra-
+Gali-
+Gardabani-61
+Gori-67
+Gudauta	
+Gulripshi	
+Gurjaani-57
+Java-
+Kareli-13
+Kaspi-21
+Kazbegi-7
+Keda-11
+Kharagauli-13
+Khashuri-34
+Khelvachauri-61
+Khobi-18
+Khoni-16
+Khulo-22
+Kobuleti-60
+Kutaisi-
+Kvareli-21
+Lagodekhi-24
+Lanchkhuti-26
+Lentekhi-3
+Marneuli-73
+Martvili-23
+Mcxeta-49
+Mestia-6
+Ninotsminda-11
+Ochamchire-
+Oni-4
+Ozurgeti-68
+Poti-
+Rustavi-
+Sachkhere-34
+Sagarejo-27
+Samtredia-40
+Senaki-39
+Shuakhevi-12
+Signagi-21
+Sokhumi-
+Tbilisi-
+Telavi-69
+Terjola-28
+Tetritskaro-12
+Tianeti-8
+Tkibuli-21
+Tsageri-9
+Tsalenjikha-20
+Tsalka-9
+Tskaltubo-42
+Vani-16
+Zestafoni-69
+Zugdidi-100`
+
+document.getElementsByTagName('textarea')[0].value = test_value
+document.getElementsByTagName('textarea')[0].onkeyup();
+    </script>
+</body>
+</html>
