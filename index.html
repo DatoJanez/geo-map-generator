@@ -120,7 +120,8 @@ function delay(fn, ms) {
 } 
     var values
     document.getElementsByTagName('textarea')[0].onkeyup = delay((e) => {
-        values = document.getElementsByTagName('textarea')[0].value.split('\n').map(a => a.replace('\t', '-').replace(/  +/g, '')).map(a => ({ name: a.split('-')[0].trim(), value: +a.split('-')[1]}) )
+        document.getElementsByTagName('textarea')[0].value = document.getElementsByTagName('textarea')[0].value.split('\t').join('-')
+        values = document.getElementsByTagName('textarea')[0].value.split('\n').map(a => a.replace('\t', ' ').replace(/  +/g, '')).map(a => ({ name: a.split('-')[0].trim(), value: +a.split('-')[1]}) )
         if(!data){
             d3.json("https://raw.githubusercontent.com/DatoJanez/geo-map-generator/master/munic_.geojson", data_ => {
             // d3.json("https://raw.githubusercontent.com/DatoJanez/rustavi-abonent-number/master/munic-and-city.geojson", data_ => {
