@@ -25,7 +25,7 @@ flex-wrap: wrap
     }
     textarea, #munics{
         width: 100%;
-        height: calc(100% - 100px);
+        height: calc(100% - 140px);
         overflow-y: scroll;
         display: flex;
 flex-wrap: wrap;
@@ -63,6 +63,12 @@ flex-wrap: wrap;
     #input{
         display: none;
     }
+    .controlls > div.info{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        height: 40px;
+        box-sizing: border-box;
+        padding: 8px 10px;
+    }
 </style>
 <script src="https://unpkg.com/read-excel-file@4.x/bundle/read-excel-file.min.js"></script>
 
@@ -80,6 +86,9 @@ flex-wrap: wrap;
 <div class="controlls">
     <input type="file" id="input" />
     <a id="upload" onclick="document.getElementById('input').click()" href="#">Upload the Excel with data</a>
+    <div class="info">
+        * <a href="https://github.com/DatoJanez/geo-map-generator/raw/master/sample-map-data-inpu.xlsx">Download the sample excel file for data input</a>
+    </div>
     <!-- <textarea></textarea> -->
     <div id="munics"></div>
     <a id="download" href="#">Download the map</a>
