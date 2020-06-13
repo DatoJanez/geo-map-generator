@@ -5,9 +5,11 @@
 
     <meta charset="utf-8">
     <style>
-        #my_dataviz {
-            /* border:1px solid red; */
-        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            }
 
         body {
             width: 100%;
@@ -188,7 +190,10 @@
             .scale(12080)                       // This is like the zoom
             .translate([width / 2, height / 2])
         document.getElementById("download").onclick = function () {
-            html2canvas(document.querySelector("#my_dataviz")).then(canvas => canvas.toBlob(b => saveAs(b, 'geo-map.png')));
+            html2canvas(document.querySelector("#my_dataviz"), {
+            allowTaint:false,
+            useCORS	:true
+        }).then(canvas => canvas.toBlob(b => saveAs(b, 'geo-map.png')));
             // var svgData = document.getElementById("my_dataviz").outerHTML;
             // var svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
             // var svgUrl = URL.createObjectURL(svgBlob);
