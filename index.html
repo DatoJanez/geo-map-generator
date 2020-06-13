@@ -1,224 +1,292 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
-<meta charset="utf-8">
-<style>
-    #my_dataviz{
-        /* border:1px solid red; */
-    }
-    body{
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        margin: 0;
-        display: flex;
-        align-content: stretch;
-        align-items: center;
-    }
-    .controlls{ 
-        width: calc(100% - 1450px);
-flex-grow: 1;
-height: 100%;
-display: flex;
-flex-wrap: wrap
-    }
-    textarea, #munics{
-        width: 100%;
-        height: calc(100% - 140px);
-        overflow-y: scroll;
-        display: flex;
-flex-wrap: wrap;
-    }
-    #munics > div{
-        width: 50%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-sizing: border-box;
-        padding: 0 7px;
-        
-    }
-    #munics > div > label{
-        font-family: mono;
-    }
-    #munics > div > input{
-        width: 10%;
-    }
-    #upload, #download{
-        width: 100%;
-        height: 50px;
-        display: block;
-        background: #26b75e;
-        color: #fff;
-        text-decoration: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: mono;
-    }
-    #upload{
-        background: #26b288;
-    }
-    #input{
-        display: none;
-    }
-    .controlls > div.info{
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        height: 40px;
-        box-sizing: border-box;
-        padding: 8px 10px;
-    }
-</style>
-<script src="https://unpkg.com/read-excel-file@4.x/bundle/read-excel-file.min.js"></script>
+    <meta charset="utf-8">
+    <style>
+        #my_dataviz {
+            /* border:1px solid red; */
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            margin: 0;
+            display: flex;
+            align-content: stretch;
+            align-items: center;
+        }
+
+        .controlls {
+            width: calc(100% - 1450px);
+            flex-grow: 1;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap
+        }
+
+        textarea,
+        #munics {
+            width: 100%;
+            height: calc(100% - 190px);
+            overflow-y: scroll;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        #munics>div {
+            width: 50%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            padding: 0 7px;
+
+        }
+
+        #munics>div>label {
+            font-family: mono;
+        }
+
+        #munics>div>input {
+            width: 10%;
+        }
+
+        #upload,
+        #download {
+            width: 100%;
+            height: 50px;
+            display: block;
+            background: #26b75e;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: mono;
+        }
+
+        #upload {
+            background: #26b288;
+        }
+
+        #input {
+            display: none;
+        }
+
+        .controlls>div.info {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 40px;
+            box-sizing: border-box;
+            padding: 8px 10px;
+        }
+
+        .basemap {
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0 17px;
+            font-family: mono;
+        }
+
+        i {
+            text-transform: none;
+        }
+
+        svg {
+            /* background-image: url('./base-maps/15.png'); */
+            background-position: -156px -198px;
+            background-size: 2227px 1240px;
+        }
+
+        button {
+            background: #26b288;
+            border: none;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            color: #fff;
+            font-weight: bold;
+            width: 28px;
+            cursor: pointer;
+            outline: none;
+        }
+    </style>
+    <script src="https://unpkg.com/read-excel-file@4.x/bundle/read-excel-file.min.js"></script>
 
 
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v4.js"></script>
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 </head>
+
 <body>
 
 
-<!-- Create an element where the map will take place -->
-<svg id="my_dataviz" width="1450" height="750"></svg>
-<div class="controlls">
-    <input type="file" id="input" />
-    <a id="upload" onclick="document.getElementById('input').click()" href="#">Upload the Excel with data</a>
-    <div class="info">
-        * <a href="https://github.com/DatoJanez/geo-map-generator/raw/master/sample-map-data-inpu.xlsx">Download the sample excel file for data input</a>
+    <!-- Create an element where the map will take place -->
+    <svg id="my_dataviz" width="1450" height="750"></svg>
+    <div class="controlls">
+        <input type="file" id="input" />
+        <a id="upload" onclick="document.getElementById('input').click()" href="#">Upload the Excel with data</a>
+        <div class="info">
+            * <a href="https://github.com/DatoJanez/geo-map-generator/raw/master/sample-map-data-inpu.xlsx">Download the
+                sample excel file for data input</a>
+        </div>
+        <div class="basemap"> <span>Base-map style</span> <button id="prev"> 
+                < </button><span id="base-val">None</span><button id="next"> > </button></div>
+        <!-- <textarea></textarea> -->
+        <div id="munics"></div>
+        <a id="download" href="#">Download the map</a>
     </div>
-    <!-- <textarea></textarea> -->
-    <div id="munics"></div>
-    <a id="download" href="#">Download the map</a>
-</div>
-
-<script>
-    var input = document.getElementById('input')
-    input.addEventListener('change', function() {
-      readXlsxFile(input.files[0]).then(function(rows) {
-            rows.forEach(row => {
-                val = values.filter(d => d.name.toLowerCase() == row[0].toLowerCase())[0]
-                if(val){
-                    val.value = +row[1]
-                    let inp = document.getElementById(row[0].toLowerCase())
-                    if(inp && row.length > 1){
-                        inp.value = Math.floor(+row[1])
-                    }
-                }
-            });
-            
-            drowMap()
-            
-      })
-    })
-  </script>
-
-<script>
-
-    // The svg
-    var svg = d3.select("svg"),
-        width = +svg.attr("width"),
-        height = +svg.attr("height");
-    
-    // Map and projection
-    var projection = d3.geoMercator()
-        .center([43.35, 42.35])                // GPS of location to zoom on
-        .scale(12080)                       // This is like the zoom
-        .translate([ width/2, height/2 ])
-        document.getElementById("download").onclick = function() {
-            var svgData = document.getElementById("my_dataviz").outerHTML;
-            var svgBlob = new Blob([svgData], {type:"image/svg+xml;charset=utf-8"});
-            var svgUrl = URL.createObjectURL(svgBlob);
-            var downloadLink = document.createElement("a");
-            downloadLink.href = svgUrl;
-            downloadLink.download = "newesttree.svg";
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-    }
-    
-    var data 
-    var drowMap = () => {
-    if(!data){
-            d3.json("https://raw.githubusercontent.com/DatoJanez/geo-map-generator/master/munic_.geojson", data_ => {
-            // d3.json("https://raw.githubusercontent.com/DatoJanez/rustavi-abonent-number/master/munic-and-city.geojson", data_ => {
-                data = data_
-                drowMap_()
-            })
-        } else {
-            drowMap_()
+    <script>
+        var curr_base = 0;
+        const setBase = (val) => {
+            curr_base = val
+            document.getElementsByTagName('svg')[0].style.backgroundImage = 'url(./base-maps/_'+curr_base+'.png)'
+            document.getElementById("base-val").innerHTML = Boolean(curr_base) ? curr_base : 'None'
         }
-    }
+        document.getElementById("prev").onclick = () => setBase(curr_base > 0 ? curr_base - 1 : 7)
+        document.getElementById("next").onclick = () => setBase(curr_base < 7 ? curr_base + 1 : 0)
+            
+    </script>
+    <script>
+        var input = document.getElementById('input')
+        input.addEventListener('change', function () {
+            readXlsxFile(input.files[0]).then(function (rows) {
+                rows.forEach(row => {
+                    val = values.filter(d => d.name.toLowerCase() == row[0].toLowerCase())[0]
+                    if (val) {
+                        val.value = +row[1]
+                        let inp = document.getElementById(row[0].toLowerCase())
+                        if (inp && row.length > 1) {
+                            inp.value = Math.floor(+row[1])
+                        }
+                    }
+                });
+
+                drowMap()
+
+            })
+        })
+    </script>
+
+    <script>
+
+        // The svg
+        var svg = d3.select("svg"),
+            width = +svg.attr("width"),
+            height = +svg.attr("height");
+
+        // Map and projection
+        var projection = d3.geoMercator()
+            .center([43.35, 42.35])                // GPS of location to zoom on
+            .scale(12080)                       // This is like the zoom
+            .translate([width / 2, height / 2])
+        document.getElementById("download").onclick = function () {
+            html2canvas(document.querySelector("#my_dataviz")).then(canvas => canvas.toBlob(b => saveAs(b, 'geo-map.png')));
+            // var svgData = document.getElementById("my_dataviz").outerHTML;
+            // var svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+            // var svgUrl = URL.createObjectURL(svgBlob);
+            // var downloadLink = document.createElement("a");
+            // downloadLink.href = svgUrl;
+            // downloadLink.download = "newesttree.svg";
+            // document.body.appendChild(downloadLink);
+            // downloadLink.click();
+            // document.body.removeChild(downloadLink);
+        }
+
+        var data
+        var drowMap = () => {
+            if (!data) {
+                d3.json("https://raw.githubusercontent.com/DatoJanez/geo-map-generator/master/munic_.geojson", data_ => {
+                    // d3.json("https://raw.githubusercontent.com/DatoJanez/rustavi-abonent-number/master/munic-and-city.geojson", data_ => {
+                    data = data_
+                    drowMap_()
+                })
+            } else {
+                drowMap_()
+            }
+        }
         var drowMap_ = () => {
 
-                svg.append("g")
-                    .selectAll("path")
-                    .data(data.features)
-                    .enter()
-                    .append("path")
-                    .attr("stroke-width", 0.5)
-                    .attr("stroke", "rgba(0,0,0,.4)")
-                    .attr("fill", d => {
-                        let name = d.properties.DISTRICT.toLowerCase()
-                        let val = values.filter(a => a.name.toLowerCase() == name)[0]
-                        // console.log(name, val);
-                        if(!val || !val.value) return "white";
-                        if(val.value <= 15) return "#c0392b";
-                        if((val.value > 15) && (val.value <= 30)) return "#e74c3c";
-                        if((val.value > 30) && (val.value <= 45)) return "#F4877B";
-                        if((val.value > 45) && (val.value <= 55)) return "#bdc3c7";
-                        if((val.value > 56) && (val.value <= 70)) return "#91CEF8";
-                        if((val.value > 70) && (val.value <= 85)) return "#3498db";
-                        if(val.value > 85) return "#1c5c85";
-                        return "white"
-                    })
-                    .attr("d", d3.geoPath()
-                        .projection(projection)
-                    )
-                    // .style("stroke", "none")
+            svg.append("g")
+                .selectAll("path")
+                .data(data.features)
+                .enter()
+                .append("path")
+                .attr("stroke-width", 0.5)
+                .attr("opacity", 0.7)
+                .attr("stroke", "rgba(0,0,0,.4)")
+                .attr("fill", d => {
+                    let name = d.properties.DISTRICT.toLowerCase()
+                    let val = values.filter(a => a.name.toLowerCase() == name)[0]
+                    // console.log(name, val);
+                    if (!val || !val.value) return "white";
+                    if (val.value <= 15) return "#c0392b";
+                    if ((val.value > 15) && (val.value <= 30)) return "#e74c3c";
+                    if ((val.value > 30) && (val.value <= 45)) return "#F4877B";
+                    if ((val.value > 45) && (val.value <= 55)) return "#bdc3c7";
+                    if ((val.value > 56) && (val.value <= 70)) return "#91CEF8";
+                    if ((val.value > 70) && (val.value <= 85)) return "#3498db";
+                    if (val.value > 85) return "#1c5c85";
+                    return "white"
+                })
+                .attr("d", d3.geoPath()
+                    .projection(projection)
+                )
+            // .style("stroke", "none")
 
-}
-    
-function delay(fn, ms) {
-  let timer = 0
-  return function(...args) {
-    clearTimeout(timer)
-    timer = setTimeout(fn.bind(this, ...args), ms || 0)
-  }
-} 
-    var values = []
-   
-    
-    
-let munics = ['Abasha','Adigeni','Akhalkalaki','Akhaltsikhe','Akhmeta','Ambrolauri','Aspindza','Axalgori','Bagdati','Batumi','Bolnisi','Borjomi','Chiatura','Chkhorotsku','Chokhatauri','Dedoflistskaro','Dmanisi','Duseti','Gagra','Gali','Gardabani','Gori','Gudauta','Gulripshi','Gurjaani','Java','Kareli','Kaspi','Kazbegi','Keda','Kharagauli','Khashuri','Khelvachauri','Khobi','Khoni','Khulo','Kobuleti','Kutaisi','Kvareli','Lagodekhi','Lanchkhuti','Lentekhi','Marneuli','Martvili','Mcxeta','Mestia','Ninotsminda','Ochamchire','Oni','Ozurgeti','Poti','Rustavi','Sachkhere','Sagarejo','Samtredia','Senaki','Shuakhevi','Signagi','Sokhumi','Tbilisi','Telavi','Terjola','Tetritskaro','Tianeti','Tkibuli','Tsageri','Tsalenjikha','Tsalka','Tskaltubo','Vani','Zestafoni','Zugdidi']
-munics.forEach(munic => {
-    let cont = document.createElement('div')
-    let label = document.createElement('label')
-    label.innerHTML = munic
-    label.setAttribute("for", munic.toLowerCase())
-    let input = document.createElement('input')
-    input.setAttribute('id', munic.toLowerCase())
-    input.value = Math.floor(Math.random() * 100);
-    input.onkeyup = delay((e) => {
-        m = values.filter(a => a.name.toLowerCase() == e.target.getAttribute('id').toLowerCase())[0]
-        if(m) {
-            m.value = e.target.value
-        } else {
-            values.push({name: e.target.getAttribute('id'), value: e.target.value})
         }
+
+        function delay(fn, ms) {
+            let timer = 0
+            return function (...args) {
+                clearTimeout(timer)
+                timer = setTimeout(fn.bind(this, ...args), ms || 0)
+            }
+        }
+        var values = []
+
+
+
+        let munics = ['Abasha', 'Adigeni', 'Akhalkalaki', 'Akhaltsikhe', 'Akhmeta', 'Ambrolauri', 'Aspindza', 'Axalgori', 'Bagdati', 'Batumi', 'Bolnisi', 'Borjomi', 'Chiatura', 'Chkhorotsku', 'Chokhatauri', 'Dedoflistskaro', 'Dmanisi', 'Duseti', 'Gagra', 'Gali', 'Gardabani', 'Gori', 'Gudauta', 'Gulripshi', 'Gurjaani', 'Java', 'Kareli', 'Kaspi', 'Kazbegi', 'Keda', 'Kharagauli', 'Khashuri', 'Khelvachauri', 'Khobi', 'Khoni', 'Khulo', 'Kobuleti', 'Kutaisi', 'Kvareli', 'Lagodekhi', 'Lanchkhuti', 'Lentekhi', 'Marneuli', 'Martvili', 'Mcxeta', 'Mestia', 'Ninotsminda', 'Ochamchire', 'Oni', 'Ozurgeti', 'Poti', 'Rustavi', 'Sachkhere', 'Sagarejo', 'Samtredia', 'Senaki', 'Shuakhevi', 'Signagi', 'Sokhumi', 'Tbilisi', 'Telavi', 'Terjola', 'Tetritskaro', 'Tianeti', 'Tkibuli', 'Tsageri', 'Tsalenjikha', 'Tsalka', 'Tskaltubo', 'Vani', 'Zestafoni', 'Zugdidi']
+        munics.forEach(munic => {
+            let cont = document.createElement('div')
+            let label = document.createElement('label')
+            label.innerHTML = munic
+            label.setAttribute("for", munic.toLowerCase())
+            let input = document.createElement('input')
+            input.setAttribute('id', munic.toLowerCase())
+            input.value = Math.floor(Math.random() * 100);
+            input.onkeyup = delay((e) => {
+                m = values.filter(a => a.name.toLowerCase() == e.target.getAttribute('id').toLowerCase())[0]
+                if (m) {
+                    m.value = e.target.value
+                } else {
+                    values.push({ name: e.target.getAttribute('id'), value: e.target.value })
+                }
+                drowMap()
+            }, 300)
+            // input.onkeyup()
+            cont.appendChild(label)
+            cont.appendChild(input)
+            values.push({ name: munic, value: input.value })
+            document.getElementById('munics').appendChild(cont)
+        })
         drowMap()
-    }, 300)
-    // input.onkeyup()
-    cont.appendChild(label)
-    cont.appendChild(input)
-    values.push({name: munic, value: input.value})
-    document.getElementById('munics').appendChild(cont)
-})
-drowMap()
 // document.getElementsByTagName('textarea')[0].value = test_value
 // document.getElementsByTagName('textarea')[0].onkeyup();
     </script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script>
+    (function(a,b){if("function"==typeof define&&define.amd)define([],b);else if("undefined"!=typeof exports)b();else{b(),a.FileSaver={exports:{}}.exports}})(this,function(){"use strict";function b(a,b){return"undefined"==typeof b?b={autoBom:!1}:"object"!=typeof b&&(console.warn("Deprecated: Expected third argument to be a object"),b={autoBom:!b}),b.autoBom&&/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(a.type)?new Blob(["\uFEFF",a],{type:a.type}):a}function c(a,b,c){var d=new XMLHttpRequest;d.open("GET",a),d.responseType="blob",d.onload=function(){g(d.response,b,c)},d.onerror=function(){console.error("could not download file")},d.send()}function d(a){var b=new XMLHttpRequest;b.open("HEAD",a,!1);try{b.send()}catch(a){}return 200<=b.status&&299>=b.status}function e(a){try{a.dispatchEvent(new MouseEvent("click"))}catch(c){var b=document.createEvent("MouseEvents");b.initMouseEvent("click",!0,!0,window,0,0,0,80,20,!1,!1,!1,!1,0,null),a.dispatchEvent(b)}}var f="object"==typeof window&&window.window===window?window:"object"==typeof self&&self.self===self?self:"object"==typeof global&&global.global===global?global:void 0,a=/Macintosh/.test(navigator.userAgent)&&/AppleWebKit/.test(navigator.userAgent)&&!/Safari/.test(navigator.userAgent),g=f.saveAs||("object"!=typeof window||window!==f?function(){}:"download"in HTMLAnchorElement.prototype&&!a?function(b,g,h){var i=f.URL||f.webkitURL,j=document.createElement("a");g=g||b.name||"download",j.download=g,j.rel="noopener","string"==typeof b?(j.href=b,j.origin===location.origin?e(j):d(j.href)?c(b,g,h):e(j,j.target="_blank")):(j.href=i.createObjectURL(b),setTimeout(function(){i.revokeObjectURL(j.href)},4E4),setTimeout(function(){e(j)},0))}:"msSaveOrOpenBlob"in navigator?function(f,g,h){if(g=g||f.name||"download","string"!=typeof f)navigator.msSaveOrOpenBlob(b(f,h),g);else if(d(f))c(f,g,h);else{var i=document.createElement("a");i.href=f,i.target="_blank",setTimeout(function(){e(i)})}}:function(b,d,e,g){if(g=g||open("","_blank"),g&&(g.document.title=g.document.body.innerText="downloading..."),"string"==typeof b)return c(b,d,e);var h="application/octet-stream"===b.type,i=/constructor/i.test(f.HTMLElement)||f.safari,j=/CriOS\/[\d]+/.test(navigator.userAgent);if((j||h&&i||a)&&"undefined"!=typeof FileReader){var k=new FileReader;k.onloadend=function(){var a=k.result;a=j?a:a.replace(/^data:[^;]*;/,"data:attachment/file;"),g?g.location.href=a:location=a,g=null},k.readAsDataURL(b)}else{var l=f.URL||f.webkitURL,m=l.createObjectURL(b);g?g.location=m:location.href=m,g=null,setTimeout(function(){l.revokeObjectURL(m)},4E4)}});f.saveAs=g.saveAs=g,"undefined"!=typeof module&&(module.exports=g)});
+
+</script>
 </body>
+
 </html>
