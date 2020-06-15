@@ -32,7 +32,7 @@
         textarea,
         #munics {
             width: 100%;
-            height: calc(100% - 190px);
+            height: calc(100% - 270px);
             overflow-y: scroll;
             display: flex;
             flex-wrap: wrap;
@@ -117,6 +117,24 @@
             cursor: pointer;
             outline: none;
         }
+        .cols{
+            height: 80px;
+            font-family: mono;
+            padding: 0 17px;
+            font-size: 12px;
+            box-sizing: border-box;
+        }
+        .cols i{
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 1px solid gray;
+        }
+        .cols span{
+
+            display: inline-block;
+            width: 48%;
+        }
     </style>
     <script src="https://unpkg.com/read-excel-file@4.x/bundle/read-excel-file.min.js"></script>
 
@@ -141,6 +159,16 @@
         </div>
         <div class="basemap"> <span>Base-map style</span> <button id="prev"> 
                 < </button><span id="base-val">None</span><button id="next"> > </button></div>
+        <div class="cols">
+            <span><i style="background-color: #fff;"></i> No Data      </span>
+             <span><i style="background-color:#c0392b"></i> Less or equal to 15</span>
+             <span><i style="background-color:#e74c3c"></i> From 15 to 30</span>
+             <span><i style="background-color:#F4877B"></i> From 30 to 45</span>
+             <span><i style="background-color:#bdc3c7"></i> From 45 to 55</span>
+             <span><i style="background-color:#91CEF8"></i> From 56 to 70</span>
+             <span><i style="background-color:#3498db"></i> From 70 to 85</span>
+             <span><i style="background-color:#1c5c85"></i> More then 85  </span>
+        </div>
         <!-- <textarea></textarea> -->
         <div id="munics"></div>
         <a id="download" href="#">Download the map</a>
@@ -159,6 +187,7 @@
     <script>
         var input = document.getElementById('input')
         input.addEventListener('change', function () {
+            [...document.querySelectorAll('#munics input')].forEach(a => a.value = '')
             readXlsxFile(input.files[0]).then(function (rows) {
                 rows.forEach(row => {
                     val = values.filter(d => d.name.toLowerCase() == row[0].toLowerCase())[0]
