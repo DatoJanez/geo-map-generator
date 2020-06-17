@@ -247,7 +247,7 @@
             }
         }
         var drowMap_ = () => {
-
+            document.getElementsByTagName('svg')[0].innerHTML = ''
             svg.append("g")
                 .selectAll("path")
                 .data(data.features)
