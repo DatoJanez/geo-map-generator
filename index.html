@@ -138,7 +138,7 @@
     </style>
     <script src="https://unpkg.com/read-excel-file@4.x/bundle/read-excel-file.min.js"></script>
 
-
+    <title>Georgian Map Generation</title>
     <!-- Load d3.js -->
     <script src="https://d3js.org/d3.v4.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
@@ -177,7 +177,7 @@
         var curr_base = 0;
         const setBase = (val) => {
             curr_base = val
-            document.getElementsByTagName('svg')[0].style.backgroundImage = 'url(https://raw.githubusercontent.com/DatoJanez/geo-map-generator/master/base-maps//_'+curr_base+'.png)'
+            document.getElementsByTagName('svg')[0].style.backgroundImage = 'url(https://raw.githubusercontent.com/DatoJanez/geo-map-generator/master/base-maps/_'+curr_base+'.png)'
             document.getElementById("base-val").innerHTML = Boolean(curr_base) ? curr_base : 'None'
         }
         document.getElementById("prev").onclick = () => setBase(curr_base > 0 ? curr_base - 1 : 7)
@@ -237,7 +237,7 @@
         var data
         var drowMap = () => {
             if (!data) {
-                d3.json("https://raw.githubusercontent.com/DatoJanez/geo-map-generator/master/munic_.geojson", data_ => {
+                d3.json("https://raw.githubusercontent.com/DatoJanez/geo-map-generator/master/munic_k.geojson", data_ => {
                     // d3.json("https://raw.githubusercontent.com/DatoJanez/rustavi-abonent-number/master/munic-and-city.geojson", data_ => {
                     data = data_
                     drowMap_()
