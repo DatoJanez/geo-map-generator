@@ -154,7 +154,7 @@
         <input type="file" id="input" />
         <a id="upload" onclick="document.getElementById('input').click()" href="#">Upload the Excel with data</a>
         <div class="info">
-            * <a href="https://github.com/DatoJanez/geo-map-generator/raw/master/sample-map-data-inpu.xlsx">Download the
+            * <a href="https://github.com/DatoJanez/geo-map-generator/raw/master/sample-map-data-input.xlsx">Download the
                 sample excel file for data input</a>
         </div>
         <div class="basemap"> <span>Base-map style</span> <button id="prev"> 
@@ -254,7 +254,7 @@
                 .enter()
                 .append("path")
                 .attr("stroke-width", 0.5)
-                .attr("opacity", 0.7)
+                .attr("opacity", 0.8)
                 .attr("stroke", "rgba(0,0,0,.4)")
                 .attr("fill", d => {
                     let name = d.properties.DISTRICT.toLowerCase()
