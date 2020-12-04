@@ -26,7 +26,10 @@
             flex-grow: 1;
             height: 100%;
             display: flex;
-            flex-wrap: wrap
+            flex-wrap: wrap;
+            position: fixed;
+            right: 0;
+            top: 0;
         }
 
         textarea,
@@ -208,7 +211,7 @@
 
     <script>
         document.getElementById('my_dataviz').setAttribute('width', document.body.clientWidth*0.7)
-        document.getElementById('my_dataviz').setAttribute('width', document.body.clientHeight)
+        document.getElementById('my_dataviz').setAttribute('height', document.body.clientHeight)
         // The svg
         var svg = d3.select("svg"),
             width = +svg.attr("width"),
