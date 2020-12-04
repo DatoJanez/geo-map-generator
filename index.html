@@ -104,11 +104,15 @@
 
         svg {
             /* background-image: url('./base-maps/15.png'); */
+            
+            z-index:10
+        }
+        bg{
+            z-index:1;
             background-position: -4.9vw 9vh;
             background-size: 100vw auto;
             background-repeat: no-repeat;
         }
-
         button {
             background: #26b288;
             border: none;
@@ -153,6 +157,7 @@
 
 
     <!-- Create an element where the map will take place -->
+    <div id="bg" ></div>
     <svg id="my_dataviz" width="" height=""></svg>
     <div class="controlls">
         <input type="file" id="input" />
@@ -181,7 +186,7 @@
         var curr_base = 0;
         const setBase = (val) => {
             curr_base = val
-            document.getElementsByTagName('svg')[0].style.backgroundImage = 'url(https://raw.githubusercontent.com/DatoJanez/geo-map-generator/master/base-maps/_'+curr_base+'.png)'
+            document.getElementsByTagName('id')[0].style.backgroundImage = 'url(https://raw.githubusercontent.com/DatoJanez/geo-map-generator/master/base-maps/_'+curr_base+'.png)'
             document.getElementById("base-val").innerHTML = Boolean(curr_base) ? curr_base : 'None'
         }
         document.getElementById("prev").onclick = () => setBase(curr_base > 0 ? curr_base - 1 : 7)
