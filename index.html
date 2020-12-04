@@ -220,7 +220,7 @@
         // Map and projection
         var projection = d3.geoMercator()
             .center([43.35, 42.35])                // GPS of location to zoom on
-            .scale(12080)                       // This is like the zoom
+            .scale(document.body.clientWidth*5.5)                       // This is like the zoom
             .translate([width / 2, height / 2])
         document.getElementById("download").onclick = function () {
             html2canvas(document.querySelector("#my_dataviz"), {
