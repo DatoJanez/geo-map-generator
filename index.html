@@ -218,8 +218,7 @@
     <script>
         document.getElementById('my_dataviz').setAttribute('width', document.body.clientWidth*0.7)
         document.getElementById('my_dataviz').setAttribute('height', document.body.clientHeight)
-        document.getElementById('bg').style.width = document.body.clientWidth*0.7
-        document.getElementById('bg').style.height = document.body.clientHeight
+        document.getElementById('bg').setAttribute("style", "width: " + document.body.clientWidth*0.7 + "px; height:" + document.body.clientHeight + "px;")
         // The svg
         var svg = d3.select("svg"),
             width = +svg.attr("width"),
