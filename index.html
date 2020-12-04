@@ -186,7 +186,7 @@
         var curr_base = 0;
         const setBase = (val) => {
             curr_base = val
-            document.getElementById('bg').style.backgroundImage = 'url(https://raw.githubusercontent.com/DatoJanez/geo-map-generator/master/base-maps/_'+curr_base+'.png)'
+            document.getElementById('bg').attr("style", "backgroundImage = 'url(https://raw.githubusercontent.com/DatoJanez/geo-map-generator/master/base-maps/_"+curr_base+".png)'")
             document.getElementById("base-val").innerHTML = Boolean(curr_base) ? curr_base : 'None'
         }
         document.getElementById("prev").onclick = () => setBase(curr_base > 0 ? curr_base - 1 : 7)
@@ -218,8 +218,8 @@
     <script>
         document.getElementById('my_dataviz').setAttribute('width', document.body.clientWidth*0.7)
         document.getElementById('my_dataviz').setAttribute('height', document.body.clientHeight)
-        document.getElementById('bg').setAttribute('width', document.body.clientWidth*0.7)
-        document.getElementById('bg').setAttribute('height', document.body.clientHeight)
+        document.getElementById('bg').style.width = document.body.clientWidth*0.7
+        document.getElementById('bg').style.height = document.body.clientHeight
         // The svg
         var svg = d3.select("svg"),
             width = +svg.attr("width"),
