@@ -22,7 +22,7 @@
         }
 
         .controlls {
-            width: calc(100% - 1450px);
+            width: 30%;
             flex-grow: 1;
             height: 100%;
             display: flex;
@@ -149,7 +149,7 @@
 
 
     <!-- Create an element where the map will take place -->
-    <svg id="my_dataviz" width="1450" height="750"></svg>
+    <svg id="my_dataviz" width="" height=""></svg>
     <div class="controlls">
         <input type="file" id="input" />
         <a id="upload" onclick="document.getElementById('input').click()" href="#">Upload the Excel with data</a>
@@ -207,7 +207,8 @@
     </script>
 
     <script>
-
+        document.getElementById('my_dataviz').setAttribute('width', document.body.clientWidth*0.7)
+        document.getElementById('my_dataviz').setAttribute('width', document.body.clientHeight)
         // The svg
         var svg = d3.select("svg"),
             width = +svg.attr("width"),
