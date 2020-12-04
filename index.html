@@ -186,7 +186,7 @@
         var curr_base = 0;
         const setBase = (val) => {
             curr_base = val
-            document.getElementById('bg-img').attr("style", "backgroundImage = 'url(https://raw.githubusercontent.com/DatoJanez/geo-map-generator/master/base-maps/_"+curr_base+".png)'")
+            document.getElementById('bg-img').style.backgroundImage = 'url(https://raw.githubusercontent.com/DatoJanez/geo-map-generator/master/base-maps/_'+curr_base+'.png)'
             document.getElementById("base-val").innerHTML = Boolean(curr_base) ? curr_base : 'None'
         }
         document.getElementById("prev").onclick = () => setBase(curr_base > 0 ? curr_base - 1 : 7)
